@@ -22,3 +22,7 @@ Route::group(['namespace' => 'Blog', 'prefix' => 'blog'], function () {
 
 
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
