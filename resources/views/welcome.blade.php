@@ -87,7 +87,7 @@
                 <div class="links">
                     <a href="https://laravel.com/docs">Документация</a>
                     <a href="blog/posts">Блог_пост</a>
-                    <a href="https://laravel-news.com">News</a>
+                    <a href="admin/blog/categories">Блог категории</a>
                     <a href="https://blog.laravel.com">Blog</a>
                     <a href="https://nova.laravel.com">Nova</a>
                     <a href="https://forge.laravel.com">Forge</a>

@@ -2,19 +2,29 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+use App\Models\BlogCategory;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+
+class CategoryController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        dd(__METHOD__);
+        $dsd = BlogCategory::all();
+
+        $paginator = DB::table('blog_categories')->paginate(15);
+
+// dd($dsd, $paginator);
+
+        return view('blog.admin.category.index', compact('paginator'));
     }
 
     /**
@@ -43,11 +53,15 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
-        dd(__METHOD__);
+         $item = BlogCategory::findOrFail($id);
+         $categoryList = BlogCategory::all();
+
+        return view('blog.admin.categories.edit',
+            compact('item',  'categoryList'));
     }
 
     /**

@@ -31,7 +31,7 @@ $groupData = [
 
 ];
 
-Route::resource('rest', 'RestTestController')->names('restTest');
+
 
 Route::group($groupData, function (){
     $methods = ['index', 'edit',  'update','create', 'store',];
@@ -45,3 +45,5 @@ Route::group($groupData, function (){
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::resource('rest', 'RestTestController')->names('restTest');
