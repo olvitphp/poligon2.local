@@ -24,7 +24,7 @@ class CategoryController extends BaseController
 
 // dd($dsd, $paginator);
 
-        return view('blog.admin.category.index', compact('paginator'));
+        return view('blog.admin.categories.index', compact('paginator'));
     }
 
     /**
@@ -69,12 +69,46 @@ class CategoryController extends BaseController
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
+
     public function update(Request $request, $id)
     {
-        dd(__METHOD__);
 
+        $item = BlogCategory::find($id);
+      // dd($item);
+
+        if (empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись id=[{$id}] не найдена"])
+                ->withInput();
+        }
+        $data = $request->all();
+       // dd($data);
+
+
+        $result = $item->fill($data)->save();
+
+
+        if ($result) {
+            return redirect()
+                ->route('blog.admin.categories.edit', $item->id)
+                ->with(['success' => 'Успешно сохранено']);
+
+        }else{
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+
+        }
+
+
+
+
+
+//        if (empty($data['slug'])) {
+//            $data['slug'] = str::slug($data['title']);
+//        }
 
     }
 }

@@ -1,6 +1,6 @@
 @php
-/** @var \App\Models\BlogCategory $item  */
-/** @var \Illuminate\Support\Collection $categoryList  */
+/** @var \App\Models\BlogCategory $item  */use Illuminate\Support\Collection;
+/** @var Collection $categoryList  */
 
 @endphp
 <div class="row justify-content-center">
@@ -47,7 +47,7 @@
                                     @foreach($categoryList as $categoryOption)
                                         <option value="{{$categoryOption->id}}"
                                                 @if($categoryOption->id == $item->parent_id) selected @endif>
-                                            {{ $categoryOption->id_title }}. {{$categoryOption->title}}
+                                            {{ $categoryOption->id_title }} {{$categoryOption->title}}
                                         </option>
                                     @endforeach
 
