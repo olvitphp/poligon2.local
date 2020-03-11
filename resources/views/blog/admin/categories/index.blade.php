@@ -42,7 +42,7 @@
 
                                     </a>
                                 </td>
-                                <td @if(in_array($item->parent_id, [0,1])) style="..." @endif>
+                                <td @if(in_array($item->parent_id, [0,1])) style="color:#6666" @endif>
                                     {{ $item->parent_id }}{{-- $item->parentCategory->title --}}
                                 </td>
                             </tr>

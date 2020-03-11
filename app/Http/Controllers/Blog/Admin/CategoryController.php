@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 
+use App\Http\Requests\BlogCategoryUpdateReequest;
 use App\Models\BlogCategory;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 
 class CategoryController extends BaseController
@@ -18,9 +19,9 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $dsd = BlogCategory::all();
+      //  $dsd = BlogCategory::all();
 
-        $paginator = DB::table('blog_categories')->paginate(15);
+        $paginator = BlogCategory::paginate(15);
 
 // dd($dsd, $paginator);
 
@@ -72,8 +73,18 @@ class CategoryController extends BaseController
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function update(Request $request, $id)
-    {
+       public function update(BlogCategoryUpdateReequest $request, $id)
+   {
+//        $rules = [
+//            'title'         =>  'required|min:5|max:200',
+//            'slug'          =>  'max:200',
+//            'description'   =>  'string|max:500|min:3',
+//            'parent_id'     =>  'required|integer|exists:blog_categories,id',
+//        ];
+
+       // $validateData = $this->validate($request, $rules);
+       // $validateData = $request->validate($rules);
+       // dd($validateData);
 
         $item = BlogCategory::find($id);
       // dd($item);

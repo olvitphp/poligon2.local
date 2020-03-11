@@ -17,6 +17,14 @@ class BlogCategory extends Model
             'description',
         ];
 
+
+    /**
+     * @inheritDoc
+     */
+    public function resolveChildRouteBinding($childType, $value, $field)
+    {
+        // TODO: Implement resolveChildRouteBinding() method.
+    }
 }
 
 
