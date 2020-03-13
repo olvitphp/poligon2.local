@@ -18,6 +18,9 @@ class BlogCategory extends Model
         ];
 
 
+
+
+
     /**
      * @inheritDoc
      */

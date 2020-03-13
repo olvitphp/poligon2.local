@@ -3,26 +3,48 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 
+
 use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateReequest;
 use App\Models\BlogCategory;
+use App\Repositories\BlogCategoryRepository;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
-use Illuminate\Http\Request;
-
+/**
+ * Class CategoryController
+ * @package App\Http\Controllers\Blog\Admin
+ */
 
 
 class CategoryController extends BaseController
 {
     /**
+     * @return Factory|View
+     * @var BlogCategoryRepository
+     *
+     */
+    private $blogCategoryRepository;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->blogCategoryRepository = app(BlogCategoryRepository::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
+
     public function index()
     {
       //  $dsd = BlogCategory::all();
+     //  $paginator = BlogCategory::paginate(15);
 
-        $paginator = BlogCategory::paginate(15);
+      $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
 
 // dd($dsd, $paginator);
 
@@ -32,13 +54,15 @@ class CategoryController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function create()
     {
        $item = new BlogCategory();
        $categoryList = BlogCategory::all();
       // dd($item);
+    $categoryList
+        = $this->blogCategoryRepository->getForComboBox();
 
        return view('blog.admin.categories.edit',
        compact('item', 'categoryList'));
@@ -48,7 +72,7 @@ class CategoryController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(BlogCategoryCreateRequest $request)
@@ -69,7 +93,8 @@ class CategoryController extends BaseController
 
         if ($item) {
             return redirect()->route('blog.admin.categories.edit', [$item->id])
-                ->with(['success' => 'Успешно сохранено']);
+                ->with(['success' => 'Успешно сохранено'])
+                ->withInput();
         } else {
             return back()->withErrors(['msg' => 'Ошибка сохранения'])
                 ->withInput();
@@ -81,12 +106,19 @@ class CategoryController extends BaseController
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param BlogCategoryRepository $categoryRepository
+     * @return Factory|View
      */
-    public function edit($id)
+    public function edit($id, BlogCategoryRepository $categoryRepository)
     {
-         $item = BlogCategory::findOrFail($id);
-         $categoryList = BlogCategory::all();
+        // $item = BlogCategory::findOrFail($id);
+        // $categoryList = BlogCategory::all();
+
+        $item = $categoryRepository->getEdit($id);
+        if (empty($item)) {
+            abort(404);;
+        }
+        $categoryList = $categoryRepository->getForComboBox();
 
         return view('blog.admin.categories.edit',
             compact('item',  'categoryList'));
@@ -95,7 +127,7 @@ class CategoryController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
