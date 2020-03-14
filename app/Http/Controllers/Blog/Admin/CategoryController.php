@@ -44,7 +44,7 @@ class CategoryController extends BaseController
       //  $dsd = BlogCategory::all();
      //  $paginator = BlogCategory::paginate(15);
 
-      $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
+      $paginator = $this->blogCategoryRepository->getAllWithPaginate(10);
 
 // dd($dsd, $paginator);
 
@@ -59,7 +59,7 @@ class CategoryController extends BaseController
     public function create()
     {
        $item = new BlogCategory();
-       $categoryList = BlogCategory::all();
+    //   $categoryList = BlogCategory::all();
       // dd($item);
     $categoryList
         = $this->blogCategoryRepository->getForComboBox();
@@ -83,9 +83,7 @@ class CategoryController extends BaseController
         }
 
         // Создает объект но не добавлят в БД
-//        $item = new BlogCategory($data);
-//        $item->save();
-        // Создает объект но не добавлят в БД
+
         $item = (new BlogCategory())->create($data);
 
 //        dd($item);
@@ -109,16 +107,17 @@ class CategoryController extends BaseController
      * @param BlogCategoryRepository $categoryRepository
      * @return Factory|View
      */
-    public function edit($id, BlogCategoryRepository $categoryRepository)
+    public function edit($id)
     {
         // $item = BlogCategory::findOrFail($id);
         // $categoryList = BlogCategory::all();
 
-        $item = $categoryRepository->getEdit($id);
+        $item = $this->blogCategoryRepository->getEdit($id);
         if (empty($item)) {
             abort(404);;
         }
-        $categoryList = $categoryRepository->getForComboBox();
+        $categoryList
+            = $this->blogCategoryRepository->getForComboBox();
 
         return view('blog.admin.categories.edit',
             compact('item',  'categoryList'));
@@ -136,7 +135,7 @@ class CategoryController extends BaseController
    {
 
 
-        $item = BlogCategory::find($id);
+        $item = $this->blogCategoryRepository->getEdit($id);
       // dd($item);
 
         if (empty($item)) {
