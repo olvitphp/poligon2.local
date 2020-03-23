@@ -5,6 +5,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogPost extends Model
@@ -14,7 +15,7 @@ class BlogPost extends Model
     /**
      * Кктегория статьи.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      *
      */
     public function category()
@@ -33,5 +34,13 @@ class BlogPost extends Model
     {
         // Статья принадлежит пользователю
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function resolveChildRouteBinding($childType, $value, $field)
+    {
+        // TODO: Implement resolveChildRouteBinding() method.
     }
 }
